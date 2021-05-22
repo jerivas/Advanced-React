@@ -1,3 +1,3 @@
 export default function OrdersPage() {
-    return <p>I'm order</p>
+  return <p>I'm order</p>;
 }
