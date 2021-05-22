@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 const LogoStyles = styled.h1`
-  background-color: red;
+  background-color: var(--red, red);
   font-size: 4rem;
   margin-left: 2rem;
   position: relative;
