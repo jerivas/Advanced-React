@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import Nav from './Nav';
 
 const LogoStyles = styled.h1`
   background-color: var(--red, red);
@@ -22,7 +23,7 @@ const HeaderStyles = styled.header`
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
   }
   .sub-bar {
     display: grid;
@@ -38,6 +39,7 @@ export default function Header() {
         <LogoStyles>
           <Link href="/">Sick Fits</Link>
         </LogoStyles>
+        <Nav />
       </div>
       <div className="sub-bar">
         <p>Search</p>

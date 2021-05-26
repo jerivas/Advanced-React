@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
-import Nav from './Nav';
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -14,9 +13,9 @@ const GlobalStyles = createGlobalStyle`
     --red: #ff1234;
     --black: #393939;
     --grey: #3a3a3a;
-    --gray: var(----grey);
+    --gray: var(--grey);
     --lightGrey: #e1e1e1;
-    --lightGray: var(----lightGrey);
+    --lightGray: var(--lightGrey);
     --offWhite: #ededed;
     --maxWidth: 1000px;
     --bs: 0 12px 24px rgba(0,0,0,0.09);
@@ -58,7 +57,6 @@ export default function Page({ children }) {
     <div>
       <GlobalStyles />
       <Header />
-      <Nav />
       <InnerStyles>{children}</InnerStyles>
     </div>
   );
