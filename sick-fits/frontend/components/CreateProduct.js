@@ -22,7 +22,6 @@ export default function CreateProduct() {
             type="file"
             id="image"
             name="image"
-            value={inputs.image}
             onChange={handleChange}
             required
           />
