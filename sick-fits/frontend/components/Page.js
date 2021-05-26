@@ -23,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
     --font-stack: radnika_next, ---apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
     box-sizing: border-box;
+    font-size: 10px;
   }
   *, *::before, *::after {
     box-sizing: inherit;
