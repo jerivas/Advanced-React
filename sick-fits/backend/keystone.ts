@@ -1,5 +1,8 @@
+import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
+import { statelessSessions, withItemData } from '@keystone-next/keystone/session';
 import 'dotenv/config';
+import { User } from './schemas/User';
 
 const databaseUrl = process.env.DATABASE_URL
 const sessionConfig = {
@@ -7,7 +10,16 @@ const sessionConfig = {
     secret: process.env.COOKIE_SECRET
 }
 
-export default config({
+const { withAuth } = createAuth({
+    listKey: 'User',
+    identityField: 'email',
+    secretField: 'password',
+    initFirstItem: {
+        fields: ['name', 'email', 'password']
+    }
+})
+
+export default withAuth(config({
     server: {
         cors: {
             origin: [process.env.FRONTEND_URL],
@@ -18,8 +30,15 @@ export default config({
         adapter: 'mongoose',
         url: databaseUrl
     },
-    lists: createSchema({}),
+    lists: createSchema({
+        User
+    }),
     ui: {
-        isAccessAllowed: () => true
-    }
-})
+        isAccessAllowed: ({ session }) => {
+            return Boolean(session?.data)
+        }
+    },
+    session: withItemData(statelessSessions(sessionConfig), {
+        User: `id`
+    })
+}))
