@@ -5,6 +5,7 @@ import {
   withItemData,
 } from '@keystone-next/keystone/session';
 import 'dotenv/config';
+import { Product } from './schemas/Product';
 import { User } from './schemas/User';
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -36,6 +37,7 @@ export default withAuth(
     },
     lists: createSchema({
       User,
+      Product,
     }),
     ui: {
       isAccessAllowed: ({ session }) => Boolean(session?.data),
