@@ -46,11 +46,7 @@ export default function UpdateProductForm({ id }) {
     variables: { id },
   });
 
-  const { inputs, handleChange } = useForm({
-    name: data?.Product.name,
-    price: data?.Product.price,
-    description: data?.Product.description,
-  });
+  const { inputs, handleChange } = useForm(data?.Product);
 
   const [
     updateProduct,

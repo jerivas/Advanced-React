@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useForm(initial = {}) {
   const [inputs, setInputs] = useState(initial);
@@ -9,6 +9,13 @@ export default function useForm(initial = {}) {
     blankState[key] = '';
   }
   const clear = () => setInputs(blankState);
+
+  // Manually watch for changes INSIDE initial to trigger setInputs
+  // Helps when the initial state is undefined and then changes to an object
+  const initialValues = Object.values(initial).join('');
+  useEffect(() => {
+    setInputs(initial);
+  }, [initialValues]);
 
   function handleChange(event) {
     let { value, name, type } = event.target;
