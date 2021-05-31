@@ -9,6 +9,7 @@ import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
 import { User } from './schemas/User';
 import { insertSeedData } from './seed-data';
+import { sendPasswordResetEmail } from './lib/mail';
 
 const databaseUrl = process.env.DATABASE_URL;
 const sessionConfig = {
@@ -25,7 +26,7 @@ const { withAuth } = createAuth({
   },
   passwordResetLink: {
     async sendToken(args) {
-      console.log(args);
+      await sendPasswordResetEmail(args.token, args.identity);
     },
   },
 });
