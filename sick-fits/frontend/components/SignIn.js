@@ -31,7 +31,7 @@ export default function SignIn() {
       method="POST"
       onSubmit={async (event) => {
         event.preventDefault();
-        await signIn();
+        await signIn().catch(console.error);
       }}
     >
       <DisplayError error={error} />
