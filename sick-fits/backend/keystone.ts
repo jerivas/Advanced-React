@@ -11,6 +11,7 @@ import { User } from './schemas/User';
 import { CartItem } from './schemas/CartItem';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
+import { extendGraphqlSchema } from './mutations';
 
 const databaseUrl = process.env.DATABASE_URL;
 const sessionConfig = {
@@ -55,6 +56,7 @@ export default withAuth(
       ProductImage,
       CartItem,
     }),
+    extendGraphqlSchema,
     ui: {
       isAccessAllowed: ({ session }) => Boolean(session?.data),
     },
