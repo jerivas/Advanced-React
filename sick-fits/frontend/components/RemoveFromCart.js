@@ -1,6 +1,9 @@
 import { gql, useMutation } from '@apollo/client';
 import styled from 'styled-components';
 
+const evict = (cache, payload) =>
+  cache.evict(cache.identify(payload.data.deleteCartItem));
+
 const DELETE_CART_ITEM_MUTATION = gql`
   mutation DELETE_CART_ITEM_MUTATION($id: ID!) {
     deleteCartItem(id: $id) {
@@ -22,6 +25,7 @@ const BigButton = styled.button`
 export default function RemoveFromCart({ id }) {
   const [deleteItem, { loading }] = useMutation(DELETE_CART_ITEM_MUTATION, {
     variables: { id },
+    update: evict,
   });
   return (
     <BigButton
