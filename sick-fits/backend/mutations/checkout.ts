@@ -74,7 +74,7 @@ export default async function checkout(
   });
 
   await context.lists.CartItem.deleteMany({
-    ids: cartItems.map((item) => item.id),
+    ids: user.cart.map((item) => item.id),
   });
   return order;
 }

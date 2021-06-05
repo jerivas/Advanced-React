@@ -9,6 +9,9 @@ import {
 import { useState } from 'react';
 import nProgress from 'nprogress';
 import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { useCart } from '../lib/CartState';
+import { CURRENT_USER_QUERY } from './User';
 import SickButton from './styles/SickButton';
 
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
@@ -36,13 +39,18 @@ const CheckoutFormStyles = styled.form`
 `;
 
 export function CheckoutForm() {
+  const { closeCart } = useCart();
+  const router = useRouter();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
   const [checkout, { data, error: checkoutError }] = useMutation(
-    CHECKOUT_MUTATION
+    CHECKOUT_MUTATION,
+    {
+      refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    }
   );
 
   if (checkoutError) setError(checkoutError);
@@ -62,6 +70,11 @@ export function CheckoutForm() {
     setLoading(true);
     nProgress.start();
     const order = await checkout({ variables: { token: paymentMethod.id } });
+    router.push({
+      pathname: '/order/[id]',
+      query: { id: order.data.checkout.id },
+    });
+    closeCart();
     setLoading(false);
     nProgress.done();
   }
