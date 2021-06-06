@@ -2,6 +2,7 @@ import {
   OrderItemWhereInput,
   OrderWhereInput,
   ProductWhereInput,
+  UserWhereInput,
 } from './.keystone/schema-types';
 import { permissionsList } from './schemas/fields';
 import { ListAccessArgs } from './types';
@@ -45,5 +46,10 @@ export const rules = {
     if (!isSignedIn({ session })) return false;
     if (permissions.canManageCart({ session })) return true;
     return { order: { user: { id: session.itemId } } };
+  },
+  canManageUsers({ session }: ListAccessArgs): boolean | UserWhereInput {
+    if (!isSignedIn({ session })) return false;
+    if (permissions.canManageUsers({ session })) return true;
+    return { id: session.itemId };
   },
 };
