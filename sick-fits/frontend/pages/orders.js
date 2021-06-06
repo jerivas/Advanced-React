@@ -56,7 +56,7 @@ export default function OrdersPage() {
         {allOrders.map((order) => {
           const itemCount = countOrderItems(order);
           return (
-            <OrderItemStyles>
+            <OrderItemStyles key={order.id}>
               <Link href={`/order/${order.id}`}>
                 <a>
                   <div className="order-meta">
