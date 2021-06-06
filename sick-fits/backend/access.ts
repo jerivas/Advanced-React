@@ -1,4 +1,8 @@
-import { ProductWhereInput } from './.keystone/schema-types';
+import {
+  OrderItemWhereInput,
+  OrderWhereInput,
+  ProductWhereInput,
+} from './.keystone/schema-types';
 import { permissionsList } from './schemas/fields';
 import { ListAccessArgs } from './types';
 
@@ -21,11 +25,25 @@ export const permissions = {
 // Rules return a boolean or a filter function to limit object-level access
 export const rules = {
   canManageProducts({ session }: ListAccessArgs): boolean | ProductWhereInput {
+    if (!isSignedIn({ session })) return false;
     if (permissions.canManageProducts({ session })) return true;
     return { user: { id: session.itemId } };
   },
   canReadProducts({ session }: ListAccessArgs): boolean | ProductWhereInput {
+    if (!isSignedIn({ session })) return false;
     if (permissions.canManageProducts({ session })) return true;
     return { status: 'AVAILABLE' };
+  },
+  canOrder({ session }: ListAccessArgs): boolean | OrderWhereInput {
+    if (!isSignedIn({ session })) return false;
+    if (permissions.canManageCart({ session })) return true;
+    return { user: { id: session.itemId } };
+  },
+  canManageOrderItems({
+    session,
+  }: ListAccessArgs): boolean | OrderItemWhereInput {
+    if (!isSignedIn({ session })) return false;
+    if (permissions.canManageCart({ session })) return true;
+    return { order: { user: { id: session.itemId } } };
   },
 };
