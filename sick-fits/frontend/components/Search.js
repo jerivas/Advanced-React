@@ -70,6 +70,7 @@ export default function Search() {
           {...getInputProps({
             type: 'search',
             id: 'search',
+            placeholder: 'Search',
             className: loading ? 'loading' : '',
           })}
         />
