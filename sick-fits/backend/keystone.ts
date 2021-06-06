@@ -15,6 +15,7 @@ import { Order } from './schemas/Order';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
+import { permissionsList } from './schemas/fields';
 
 const databaseUrl = process.env.DATABASE_URL;
 const sessionConfig = {
@@ -67,7 +68,13 @@ export default withAuth(
       isAccessAllowed: ({ session }) => Boolean(session?.data),
     },
     session: withItemData(statelessSessions(sessionConfig), {
-      User: 'id',
+      User: `
+        id
+        name
+        email
+        role {
+          ${permissionsList.join(' ')}
+        }`,
     }),
   })
 );
